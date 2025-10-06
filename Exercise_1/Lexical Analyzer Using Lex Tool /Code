@@ -1,0 +1,22 @@
+%option noyywrap
+
+%{
+#include <stdio.h>
+%}
+
+identifier [a-zA-z][a-zA-Z0-9_]*
+ 
+%%
+int|float|char|double printf("%s is a dtype\n",yytext); while|for|do|if|else|switch|case|return printf("%s is a keyword\n",yytext); "#".*/\n printf("%s is preprocessing directive\n",yytext);
+"//".*/\n printf("%s is a comment\n",yytext); "{" printf("%s is a block opening\n",yytext); "}" printf("%s is a block ending\n",yytext); [0-9]+ printf("%s is an integer\n",yytext);
+\".*\" printf("%s is a string\n",yytext);
+"=" printf("%s is an assigning operator\n",yytext);
+"+"|"-"|"/"|"*"|"^"|"&"|"|" printf("%s is an operator\n",yytext);
+{identifier} printf("%s is a keyword\n",yytext); &{identifier} printf("%s is a pointer\n",yytext); ";" {}
+"\n" {}
+. {}
+%%
+
+int main(){
+yylex(); return 0;
+}
